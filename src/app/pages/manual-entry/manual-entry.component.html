@@ -1,0 +1,81 @@
+<h2 class="title">Movimentos Manuais</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="manual-form">
+
+  <div class="row">
+    <div class="field">
+      <label>Mês:</label>
+      <input type="number" formControlName="entryMonth" />
+    </div>
+
+    <div class="field">
+      <label>Ano:</label>
+      <input type="number" formControlName="entryYear" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Produto:</label>
+      <select formControlName="entryProductId" (change)="onProductChange($event)">
+        <option value="">-- Selecione --</option>
+        <option *ngFor="let p of products" [value]="p.productId">
+          {{ p.description }}
+        </option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Cosif:</label>
+      <select formControlName="entryCosif">
+        <option value="">-- Selecione --</option>
+        <option *ngFor="let c of cosifs" [value]="c.cosifId">
+          {{ c.cosifId }} - {{ c.classification }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Valor:</label>
+      <input type="number" formControlName="entryAmount" />
+    </div>
+
+    <div class="field">
+      <label>Descrição:</label>
+      <textarea formControlName="entryDescription"></textarea>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="button" class="btn secondary" (click)="form.reset()">Limpar</button>
+    <button type="button" class="btn secondary" (click)="form.reset()">Novo</button>
+    <button type="submit" class="btn primary">Incluir</button>
+  </div>
+</form>
+
+<hr />
+
+<table class="entries-table">
+  <thead>
+    <tr>
+      <th>Mês</th>
+      <th>Ano</th>
+      <th>Código do Produto</th>
+      <th>NR Lançamento</th>
+      <th>Descrição</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let e of entries">
+      <td>{{ e.entryMonth }}</td>
+      <td>{{ e.entryYear }}</td>
+      <td>{{ e.entryProductId }}</td>
+      <td>{{ e.entryNumber }}</td>
+      <td>{{ e.entryDescription }}</td>
+      <td>{{ e.entryAmount | number:'1.2-2' }}</td>
+    </tr>
+  </tbody>
+</table>
