@@ -5,59 +5,85 @@
   <div class="row">
     <div class="field">
       <label>Mês:</label>
-      <input type="number" formControlName="entryMonth" />
+      <input type="number" min="1" formControlName="entryMonth" placeholder="Informe o mês de forma numérica"
+        [ngClass]="{'input-error': !form.get('entryMonth')?.valid && form.get('entryMonth')?.touched}" />
+
+      <small class="error" *ngIf="!form.get('entryMonth')?.valid && form.get('entryMonth')?.touched">
+        Mês inválido
+      </small>
     </div>
 
     <div class="field">
       <label>Ano:</label>
-      <input type="number" formControlName="entryYear" />
+      <input type="number" min="1" formControlName="entryYear" placeholder="Informe o ano de forma numérica"
+        [ngClass]="{'input-error': !form.get('entryYear')?.valid && form.get('entryYear')?.touched}" />
+
+      <small class="error" *ngIf="!form.get('entryYear')?.valid && form.get('entryYear')?.touched">
+        Ano inválido
+      </small>
     </div>
   </div>
 
   <div class="row">
     <div class="field">
       <label>Produto:</label>
-      <select formControlName="entryProductId" (change)="onProductChange($event)">
+      <select formControlName="entryProductId" (change)="onProductChange($event)"
+        [ngClass]="{'input-error': !form.get('entryProductId')?.valid && form.get('entryProductId')?.touched}">
         <option value="">-- Selecione --</option>
         <option *ngFor="let p of products" [value]="p.productId">
           {{ p.description }}
         </option>
       </select>
+      <small class="error" *ngIf="!form.get('entryProductId')?.valid && form.get('entryProductId')?.touched">
+        Produto inválido
+      </small>
     </div>
 
     <div class="field">
       <label>Cosif:</label>
-      <select formControlName="entryCosif">
+      <select formControlName="entryCosif"
+        [ngClass]="{'input-error': !form.get('entryCosif')?.valid && form.get('entryCosif')?.touched}">
         <option value="">-- Selecione --</option>
         <option *ngFor="let c of cosifs" [value]="c.cosifId">
           {{ c.cosifId }} - {{ c.classification }}
         </option>
       </select>
+      <small class="error" *ngIf="!form.get('entryCosif')?.valid && form.get('entryCosif')?.touched">
+        Cosif inválido
+      </small>
     </div>
   </div>
 
   <div class="row">
     <div class="field">
       <label>Valor:</label>
-      <input type="number" formControlName="entryAmount" />
+      <input type="number" min="1" formControlName="entryAmount" placeholder="Informe o valor"
+        [ngClass]="{'input-error': !form.get('entryAmount')?.valid && form.get('entryAmount')?.touched}" />
+      <small class="error" *ngIf="!form.get('entryAmount')?.valid && form.get('entryAmount')?.touched">
+        Valor inválido
+      </small>
     </div>
 
     <div class="field">
       <label>Descrição:</label>
-      <textarea formControlName="entryDescription"></textarea>
+      <textarea formControlName="entryDescription" placeholder="Informe a descrição do movimento"
+        [ngClass]="{'input-error': !form.get('entryDescription')?.valid && form.get('entryDescription')?.touched}"></textarea>
+      <small class="error" *ngIf="!form.get('entryDescription')?.valid && form.get('entryDescription')?.touched">
+        Descrição inválida
+      </small>
     </div>
   </div>
 
   <div class="actions">
-    <button type="button" class="btn secondary" (click)="form.reset()">Limpar</button>
-    <button type="button" class="btn secondary" (click)="form.reset()">Novo</button>
+    <button type="button" class="btn secondary" (click)="reset()">Limpar</button>
+    <button type="button" class="btn secondary" (click)="reset()">Novo</button>
     <button type="submit" class="btn primary">Incluir</button>
   </div>
 </form>
 
 <hr />
-
-<table class="entries-table">
+<div *ngIf="entries.length === 0" class="empty-table">Nenhum lançamento disponível</div>
+<table class="entries-table" *ngIf="entries.length > 0">
   <thead>
     <tr>
       <th>Mês</th>

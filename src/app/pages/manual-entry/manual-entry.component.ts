@@ -13,12 +13,18 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ManualEntryComponent {
   form = this.fb.group({
-    entryMonth: ['', Validators.required],
-    entryYear: ['', Validators.required],
+    entryMonth: [
+      null,
+      [Validators.required, Validators.min(1), Validators.max(12)],
+    ],
+    entryYear: [
+      null,
+      [Validators.required, Validators.min(1900), Validators.max(2100)],
+    ],
     entryProductId: ['', Validators.required],
     entryCosif: ['', Validators.required],
-    entryAmount: ['', Validators.required],
-    entryDescription: ['', Validators.required],
+    entryAmount: [null, [Validators.required, Validators.min(0.01)]],
+    entryDescription: ['', [Validators.required, Validators.maxLength(50)]],
   });
 
   products: Product[] = [];
@@ -42,7 +48,6 @@ export class ManualEntryComponent {
   }
 
   onProductChange(event: Event) {
-
     const select = event.target as HTMLSelectElement;
     const productId = select.value;
 
@@ -57,16 +62,33 @@ export class ManualEntryComponent {
   }
 
   submit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     // TODO ver tipagem
-    this.manualEntryService.create(this.form.value as any).subscribe(() => {
-      this.form.reset();
-      this.loadEntries();
-    });
+    this.manualEntryService
+      .create(this.form.getRawValue() as any)
+      .subscribe(() => {
+        this.reset();
+        this.loadEntries();
+      })
+      .add(() => this.form.markAsUntouched());
   }
 
   loadEntries() {
     this.manualEntryService.list().subscribe((res) => (this.entries = res));
+  }
+
+  reset() {
+    this.form.reset({
+      entryMonth: null,
+      entryYear: null,
+      entryProductId: '',
+      entryCosif: '',
+      entryAmount: null,
+      entryDescription: '',
+    });
   }
 }
