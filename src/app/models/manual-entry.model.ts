@@ -1,8 +1,8 @@
 export interface ManualEntry {
-  entryMonth: number;
-  entryYear: number;
+  entryMonth: number | null;
+  entryYear: number | null;
   entryProductId: string;
   entryCosif: string;
-  entryAmount: number;
+  entryAmount: number | null;
   entryDescription: string;
 }

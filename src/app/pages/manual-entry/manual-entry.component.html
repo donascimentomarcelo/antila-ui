@@ -79,6 +79,8 @@
     <button type="button" class="btn secondary" (click)="reset()">Novo</button>
     <button type="submit" class="btn primary">Incluir</button>
   </div>
+
+  <div *ngIf="serverError" class="server-error">Houve um erro no servidor!</div>
 </form>
 
 <hr />

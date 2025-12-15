@@ -123,6 +123,12 @@ textarea {
   margin-top: 4px;
 }
 
+.server-error {
+  color: red;
+  font-size: 20px;
+  margin-top: 4px;
+}
+
 .input-error {
   border-color: red;
 }

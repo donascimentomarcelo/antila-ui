@@ -1,3 +1,4 @@
+import { ManualEntry } from './../../models/manual-entry.model';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Cosif } from 'src/app/models/cosif.model';
@@ -30,13 +31,14 @@ export class ManualEntryComponent {
   products: Product[] = [];
   cosifs: Cosif[] = [];
   entries: any[] = [];
+  serverError: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
     private cosifService: CosifService,
     private manualEntryService: ManualEntryService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadProducts();
@@ -67,14 +69,17 @@ export class ManualEntryComponent {
       return;
     }
 
-    // TODO ver tipagem
     this.manualEntryService
-      .create(this.form.getRawValue() as any)
-      .subscribe(() => {
-        this.reset();
-        this.loadEntries();
-      })
-      .add(() => this.form.markAsUntouched());
+      .create(this.form.getRawValue() as ManualEntry)
+      .subscribe({
+        next: (response) => {
+          this.reset();
+          this.entries.push(response);
+          this.serverError = false;
+        },
+        error: () => this.serverError = true,
+        complete: () => this.form.markAsUntouched()
+      });
   }
 
   loadEntries() {
@@ -82,6 +87,7 @@ export class ManualEntryComponent {
   }
 
   reset() {
+    this.serverError = false;
     this.form.reset({
       entryMonth: null,
       entryYear: null,
