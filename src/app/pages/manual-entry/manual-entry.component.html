@@ -1,6 +1,6 @@
 <h2 class="title">Movimentos Manuais</h2>
 
-<form [formGroup]="form" (ngSubmit)="submit()" class="manual-form">
+<form [formGroup]="form" (ngSubmit)="submit()" class="manual-form" [class.form-disabled]="form.disabled">
 
   <div class="row">
     <div class="field">
@@ -75,9 +75,9 @@
   </div>
 
   <div class="actions">
-    <button type="button" class="btn secondary" (click)="reset()">Limpar</button>
-    <button type="button" class="btn secondary" (click)="reset()">Novo</button>
-    <button type="submit" class="btn primary">Incluir</button>
+    <button type="button" class="btn secondary" (click)="resetEntry()" [disabled]="form.pristine || form.disabled">Limpar</button>
+    <button type="button" class="btn secondary" (click)="newEntry()" [disabled]="form.enabled">Novo</button>
+    <button type="submit" class="btn primary" [disabled]="form.disabled || form.invalid">Incluir</button>
   </div>
 
   <div *ngIf="serverError" class="server-error">Houve um erro no servidor!</div>

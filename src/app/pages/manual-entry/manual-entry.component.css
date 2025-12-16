@@ -132,3 +132,20 @@ textarea {
 .input-error {
   border-color: red;
 }
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: #f3f3f3;
+  color: #999;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+button:disabled,
+.btn:disabled {
+  background-color: #cfcfcf !important;
+  color: #777;
+  cursor: not-allowed;
+  opacity: 0.7;
+}

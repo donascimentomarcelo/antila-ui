@@ -13,7 +13,7 @@ export class ManualEntryService {
   constructor(private http: HttpClient) {}
 
   create(entry: ManualEntry) {
-    return this.http.post(this.api, entry);
+    return this.http.post<ManualEntry>(this.api, entry);
   }
 
   list() {

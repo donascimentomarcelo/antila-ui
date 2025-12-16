@@ -30,7 +30,7 @@ export class ManualEntryComponent {
 
   products: Product[] = [];
   cosifs: Cosif[] = [];
-  entries: any[] = [];
+  entries: ManualEntry[] = [];
   serverError: boolean = false;
 
   constructor(
@@ -43,10 +43,20 @@ export class ManualEntryComponent {
   ngOnInit() {
     this.loadProducts();
     this.loadEntries();
+    this.disableForm()
   }
 
   loadProducts() {
     this.productService.getProducts().subscribe((res) => (this.products = res));
+  }
+
+  disableForm() {
+    this.form.disable();
+  }
+
+  newEntry() {
+    this.form.enable();
+    this.resetEntry();
   }
 
   onProductChange(event: Event) {
@@ -73,8 +83,9 @@ export class ManualEntryComponent {
       .create(this.form.getRawValue() as ManualEntry)
       .subscribe({
         next: (response) => {
-          this.reset();
+          this.resetEntry();
           this.entries.push(response);
+          this.disableForm();
           this.serverError = false;
         },
         error: () => this.serverError = true,
@@ -86,7 +97,7 @@ export class ManualEntryComponent {
     this.manualEntryService.list().subscribe((res) => (this.entries = res));
   }
 
-  reset() {
+  resetEntry() {
     this.serverError = false;
     this.form.reset({
       entryMonth: null,
@@ -96,5 +107,6 @@ export class ManualEntryComponent {
       entryAmount: null,
       entryDescription: '',
     });
+    this.form.markAsPristine();
   }
 }

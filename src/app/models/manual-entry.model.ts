@@ -5,4 +5,5 @@ export interface ManualEntry {
   entryCosif: string;
   entryAmount: number | null;
   entryDescription: string;
+  entryNumber: string;
 }
