@@ -57,7 +57,14 @@
   <div class="row">
     <div class="field">
       <label>Valor:</label>
-      <input type="number" min="1" formControlName="entryAmount" placeholder="Informe o valor"
+      <input
+        type="text"
+        formControlName="entryAmount"
+        placeholder="Informe o valor"
+        [mask]="'separator.2'"
+        [thousandSeparator]="'.'"
+        [decimalMarker]="','"
+        [leadZero]="true"
         [ngClass]="{'input-error': !form.get('entryAmount')?.valid && form.get('entryAmount')?.touched}" />
       <small class="error" *ngIf="!form.get('entryAmount')?.valid && form.get('entryAmount')?.touched">
         Valor inválido
@@ -75,7 +82,8 @@
   </div>
 
   <div class="actions">
-    <button type="button" class="btn secondary" (click)="resetEntry()" [disabled]="form.pristine || form.disabled">Limpar</button>
+    <button type="button" class="btn secondary" (click)="resetEntry()"
+      [disabled]="form.pristine || form.disabled">Limpar</button>
     <button type="button" class="btn secondary" (click)="newEntry()" [disabled]="form.enabled">Novo</button>
     <button type="submit" class="btn primary" [disabled]="form.disabled || form.invalid">Incluir</button>
   </div>
@@ -103,7 +111,7 @@
       <td>{{ e.entryProductId }}</td>
       <td>{{ e.entryNumber }}</td>
       <td>{{ e.entryDescription }}</td>
-      <td>{{ e.entryAmount | number:'1.2-2' }}</td>
+      <td>{{ e.entryAmount | number:'1.2-2':'pt-BR' }}</td>
     </tr>
   </tbody>
 </table>

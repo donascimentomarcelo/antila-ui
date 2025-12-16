@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ManualEntryRoutingModule } from "./pages/manual-entry/manual-entry-routing.module";
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -18,8 +17,6 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     RouterModule,
     AppRoutingModule,
-    // ManualEntryRoutingModule
-
 ],
   providers: [],
   bootstrap: [AppComponent]

@@ -24,7 +24,7 @@ export class ManualEntryComponent {
     ],
     entryProductId: ['', Validators.required],
     entryCosif: ['', Validators.required],
-    entryAmount: [null, [Validators.required, Validators.min(0.01)]],
+    entryAmount: [null, [Validators.required, this.currencyMinValidator(0.01)]],
     entryDescription: ['', [Validators.required, Validators.maxLength(50)]],
   });
 
@@ -38,12 +38,12 @@ export class ManualEntryComponent {
     private productService: ProductService,
     private cosifService: CosifService,
     private manualEntryService: ManualEntryService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loadProducts();
     this.loadEntries();
-    this.disableForm()
+    this.disableForm();
   }
 
   loadProducts() {
@@ -88,8 +88,8 @@ export class ManualEntryComponent {
           this.disableForm();
           this.serverError = false;
         },
-        error: () => this.serverError = true,
-        complete: () => this.form.markAsUntouched()
+        error: () => (this.serverError = true),
+        complete: () => this.form.markAsUntouched(),
       });
   }
 
@@ -108,5 +108,17 @@ export class ManualEntryComponent {
       entryDescription: '',
     });
     this.form.markAsPristine();
+  }
+
+  currencyMinValidator(min: number) {
+    return (control: any) => {
+      if (!control.value) return null;
+
+      const numeric = Number(
+        control.value.replace(/\./g, '').replace(',', '.')
+      );
+
+      return numeric >= min ? null : { minAmount: true };
+    };
   }
 }
